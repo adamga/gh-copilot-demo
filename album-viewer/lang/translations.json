@@ -1,3 +1,29 @@
+/**
+ * Represents a JSON file containing translations for different languages.
+ * Each translation object has a language code and corresponding values for different UI elements.
+ * The UI elements include the main title, main subtitle, and main button text.
+ * 
+ * Example:
+ * [
+ *    {
+ *        "language": "en",
+ *        "values": {
+ *            "main-title": "Welcome to the world of the future",
+ *            "main-subtitle": "The future is now with copilot",
+ *            "main-button": "Get started"
+ *        }
+ *    },
+ *    {
+ *        "language":"fr",
+ *        "values": {
+ *            "main-title": "Bienvenue dans le monde du futur",
+ *            "main-subtitle": "Le futur est maintenant avec copilot",
+ *            "main-button": "Commencer"
+ *        }
+ *    },
+ *    ...
+ * ]
+ */
 [
     {
         "language": "en",
@@ -6,5 +32,67 @@
             "main-subtitle": "The future is now with copilot",
             "main-button": "Get started"
         }
-    }
+    },
+    {
+        "language":"fr",
+        "values": {
+            "main-title": "Bienvenue dans le monde du futur",
+            "main-subtitle": "Le futur est maintenant avec copilot",
+            "main-button": "Commencer"
+        }
+    },
+    {
+        "language":"es",
+        "values": {
+            "main-title": "Bienvenido al mundo del futuro",
+            "main-subtitle": "El futuro es ahora con copilot",
+            "main-button": "Empezar"
+        }
+    },
+    {
+        "language":"de",
+        "values": {
+            "main-title": "Willkommen in der Welt der Zukunft",
+            "main-subtitle": "Die Zukunft ist jetzt mit Copilot",
+            "main-button": "Loslegen"
+        }
+    },
+    {
+        "language":"it",
+        "values": {
+            "main-title": "Benvenuti nel mondo del futuro",
+            "main-subtitle": "Il futuro è adesso con Copilot",
+            "main-button": "Inizia"
+        }
+    },
+    {
+        "language":"pt",
+        "values": {
+            "main-title": "Bem-vindo ao mundo do futuro",
+            "main-subtitle": "O futuro é agora com Copilot",
+            "main-button": "Começar"
+        }
+    },
+    {
+        "language":"ja",
+        "values": {
+            "main-title": "未来の世界へようこそ",
+            "main-subtitle": "未来はCopilotと共に",
+            "main-button": "はじめる"
+        }
+    },
+    {
+        "language":"ru",
+        "values": {
+            "main-title": "Добро пожаловать в мир будущего",
+            "main-subtitle": "Будущее наступило с Copilot",
+            "main-button": "Начать"
+        }
+    },
+
+    // Add more languages here
+
+
+
+
 ]

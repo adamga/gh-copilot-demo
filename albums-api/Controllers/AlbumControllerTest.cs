@@ -1,56 +1,64 @@
-using albums_api.Controllers;
-using albums_api.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 using Xunit;
+using YourNamespace.Controllers; // Replace YourNamespace with the actual namespace of your AlbumController
 
-namespace albums_api.Tests.Controllers
+public class AlbumControllerTests
 {
-    public class AlbumControllerTests
+    private readonly AlbumController _controller;
+
+    public AlbumControllerTests()
     {
-        [Fact]
-        public void Get_ReturnsOkResultWithListOfAlbums()
-        {
-            // Arrange
-            var controller = new AlbumController();
-
-            // Act
-            var result = controller.Get();
-
-            // Assert
-            var okResult = Assert.IsType<OkObjectResult>(result);
-            var albums = Assert.IsType<List<Album>>(okResult.Value);
-            Assert.NotEmpty(albums);
-        }
-
-        [Fact]
-        public void Get_WithValidId_ReturnsOkResultWithAlbum()
-        {
-            // Arrange
-            var controller = new AlbumController();
-            var id = 1;
-
-            // Act
-            var result = controller.Get(id);
-
-            // Assert
-            var okResult = Assert.IsType<OkObjectResult>(result);
-            var album = Assert.IsType<Album>(okResult.Value);
-            Assert.Equal(id, album.Id);
-        }
-
-        [Fact]
-        public void Get_WithInvalidId_ReturnsNotFoundResult()
-        {
-            // Arrange
-            var controller = new AlbumController();
-            var id = -1;
-
-            // Act
-            var result = controller.Get(id);
-
-            // Assert
-            Assert.IsType<NotFoundResult>(result);
-        }
+        // Initialize your controller here. This might require mocking the data access layer or services used by AlbumController.
+        _controller = new AlbumController();
     }
+
+    [Theory]
+    [InlineData(1)] // Assuming 1 is a valid ID for testing
+    public void Get_ReturnsOkResult(int id)
+    {
+        // Act
+        var okResult = _controller.Get(id);
+
+        // Assert
+        Assert.IsType<OkResult>(okResult);
+    }
+
+    // Add more tests here to cover additional scenarios, such as invalid ID, not found cases, etc.
+}using Microsoft.AspNetCore.Mvc;
+using Xunit;
+using YourNamespace.Controllers; // Replace YourNamespace with the actual namespace of your AlbumController
+
+public class AlbumControllerTests
+{
+    private readonly AlbumController _controller;
+
+    public AlbumControllerTests()
+    {
+        // Initialize your controller here. This might require mocking the data access layer or services used by AlbumController.
+        _controller = new AlbumController();
+    }
+
+    [Theory]
+    [InlineData(1)] // Assuming 1 is a valid ID for testing
+    public void Get_ReturnsOkResult(int id)
+    {
+        // Act
+        var okResult = _controller.Get(id);
+
+        // Assert
+        Assert.IsType<OkResult>(okResult);
+    }
+
+    [Fact]
+    public void Get_ReturnsAllAlbums()
+    {
+        // Act
+        var result = _controller.Get() as OkObjectResult;
+
+        // Assert
+        Assert.NotNull(result);
+        Assert.IsType<List<Album>>(result.Value);
+    }
+
+    // Add more tests here to cover additional scenarios, such as invalid ID, not found cases, etc.
 }

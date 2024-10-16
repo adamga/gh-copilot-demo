@@ -1,48 +1,65 @@
 using System;
-using System.IO;
-using System.Linq;
 using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
 
-namespace AlbumReleaseCounter
+namespace AlbumCounter
 {
     class Program
     {
         static void Main(string[] args)
         {
-            string filePath = "ALBUMS.DAT";
-            var monthlyAlbumCounts = new Dictionary<int, int>();
+            var albumFile = "ALBUMS.DAT";
+            var monthCounts = new Dictionary<int, int>();
+            var albums = new List<Album>();
 
-            try
+            // Read and parse the album file
+            foreach (var line in File.ReadLines(albumFile))
             {
-                var lines = File.ReadAllLines(filePath);
-
-                foreach (var line in lines)
+                var album = Album.Parse(line);
+                if (album != null)
                 {
-                    var details = line.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                    if (details.Length >= 4) // Assuming the file format is consistent with the COBOL structure
+                    albums.Add(album);
+                    if (!monthCounts.ContainsKey(album.ReleaseDate.Month))
                     {
-                        int monthOfRelease = int.Parse(details[3]); // Assuming the month is the fourth element
-
-                        if (monthlyAlbumCounts.ContainsKey(monthOfRelease))
-                        {
-                            monthlyAlbumCounts[monthOfRelease]++;
-                        }
-                        else
-                        {
-                            monthlyAlbumCounts.Add(monthOfRelease, 1);
-                        }
+                        monthCounts[album.ReleaseDate.Month] = 0;
                     }
+                    monthCounts[album.ReleaseDate.Month]++;
                 }
+            }
 
-                foreach (var month in monthlyAlbumCounts.OrderBy(m => m.Key))
-                {
-                    Console.WriteLine($"Month: {month.Key}, Albums Released: {month.Value}");
-                }
-            }
-            catch (Exception ex)
+            // Display the count of albums released in each month
+            foreach (var monthCount in monthCounts)
             {
-                Console.WriteLine($"An error occurred: {ex.Message}");
+                Console.WriteLine($"{CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(monthCount.Key)}: {monthCount.Value}");
             }
+        }
+    }
+
+    class Album
+    {
+        public int AlbumId { get; set; }
+        public string Artist { get; set; }
+        public string Title { get; set; }
+        public DateTime ReleaseDate { get; set; }
+        public string Genre { get; set; }
+
+        public static Album Parse(string line)
+        {
+            // Assuming a simple CSV format for the line, adjust parsing logic as needed
+            var parts = line.Split(',');
+            if (parts.Length >= 5)
+            {
+                return new Album
+                {
+                    AlbumId = int.Parse(parts[0]),
+                    Artist = parts[1],
+                    Title = parts[2],
+                    ReleaseDate = DateTime.ParseExact(parts[3], "yyyyMMdd", CultureInfo.InvariantCulture),
+                    Genre = parts[4]
+                };
+            }
+            return null;
         }
     }
 }
